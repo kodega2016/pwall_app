@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "475751827439",
+    "project_id": "wally-5ef18",
+    "storage_bucket": "wally-5ef18.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:475751827439:android:afd04fa59c8c8a4c75581a",
+        "android_client_info": {
+          "package_name": "com.kodega.wally"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "475751827439-559lr63hm1756dlf46fv1ftt8rs9lbst.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kodega.wally",
+            "certificate_hash": "f6cdc6306517c2d1f8a4067e8d64fc1d887ed168"
+          }
+        },
+        {
+          "client_id": "475751827439-rg1hcn4ej5ntb1t9jskt93jq3hvbn68j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCyt8e0_6fS-AIDfnO-c6uKPNOn06298qo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "475751827439-rg1hcn4ej5ntb1t9jskt93jq3hvbn68j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
