@@ -9,10 +9,12 @@ class WallpaperItem extends StatelessWidget {
     Key key,
     @required this.wallpaper,
     this.onDelete,
+    this.onFav,
   }) : super(key: key);
 
   final Wallpaper wallpaper;
   final Function onDelete;
+  final Function onFav;
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +23,7 @@ class WallpaperItem extends StatelessWidget {
         Navigator.push(context, MaterialPageRoute(builder: (ctx) {
           return WallpaperViewScreen(
             wallpaper: wallpaper,
+            onFav: onFav,
           );
         }));
       },

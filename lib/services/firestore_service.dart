@@ -8,6 +8,15 @@ class FirestoreService<T> {
 
   final _firestore = FirebaseFirestore.instance;
 
+  Stream<T> streamSingle<T>({
+    @required String path,
+    @required T builder(Map<String, dynamic> data, String id),
+  }) {
+    final _ref = _firestore.doc(path);
+    final _snap = _ref.snapshots();
+    return _snap.map((event) => builder(event.data(), event.id));
+  }
+
   Future<void> setData({
     @required String path,
     @required Map<String, dynamic> data,

@@ -38,9 +38,18 @@ class WallyApp extends StatelessWidget {
                 if (snap.hasData) {
                   return Consumer<Database>(
                     builder: (ctx, db, _) {
-                      db.saveUser(snap.data);
-                      return Provider<AppUser>.value(
-                        value: snap.data,
+                      return StreamProvider<AppUser>.value(
+                        // initialData: AppUser(
+                        //   id: snap.data.id,
+                        //   displayName: snap.data.displayName,
+                        // ),
+                        initialData: null,
+                        catchError: (e, s) {
+                          print(e);
+                          print(s);
+                          return;
+                        },
+                        value: db.streamUser(snap.data.id),
                         child: HomeScreen(),
                       );
                     },
