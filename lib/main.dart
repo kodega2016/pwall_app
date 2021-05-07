@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -16,7 +17,40 @@ void main() async {
   runApp(WallyApp());
 }
 
-class WallyApp extends StatelessWidget {
+class WallyApp extends StatefulWidget {
+  @override
+  _WallyAppState createState() => _WallyAppState();
+}
+
+class _WallyAppState extends State<WallyApp> {
+  @override
+  void initState() {
+    super.initState();
+    initDynamicLinks();
+  }
+
+  void initDynamicLinks() async {
+    FirebaseDynamicLinks.instance.onLink(
+        onSuccess: (PendingDynamicLinkData dynamicLink) async {
+      final Uri deepLink = dynamicLink?.link;
+
+      if (deepLink != null) {
+        Navigator.pushNamed(context, deepLink.path);
+      }
+    }, onError: (OnLinkErrorException e) async {
+      print('onLinkError');
+      print(e.message);
+    });
+
+    final PendingDynamicLinkData data =
+        await FirebaseDynamicLinks.instance.getInitialLink();
+    final Uri deepLink = data?.link;
+
+    if (deepLink != null) {
+      Navigator.pushNamed(context, deepLink.path);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
