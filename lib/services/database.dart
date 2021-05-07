@@ -21,7 +21,7 @@ class FirebaseDatabase implements Database {
   }
 
   Future addWallpaper(Wallpaper wallpaper, File file) async {
-    final _url = await _storage.uploadFile(file);
+    final _url = await _storage.uploadFile(file, wallpaper.uploadedBy);
     final _wallpaper = wallpaper.copyWith(url: _url);
     await _service.addData(
         path: ApiPath.wallpapers(), data: _wallpaper.toMap());
@@ -40,7 +40,11 @@ class FirebaseDatabase implements Database {
 
   @override
   Future<void> deleteWallpaper(Wallpaper wallpaper) async {
-    await _storage.deleteFile(wallpaper.url);
+    try {
+      await _storage.deleteFile(wallpaper.url);
+    } catch (e) {
+      print(e);
+    }
     await _service.deleteData(path: ApiPath.wallpaper(wallpaper.id));
   }
 }

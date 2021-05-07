@@ -33,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
             label: 'Explore',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Ionicons.ios_play_circle_outline),
+            icon: Icon(Ionicons.ios_star_outline),
             label: 'Favourite',
           ),
           BottomNavigationBarItem(

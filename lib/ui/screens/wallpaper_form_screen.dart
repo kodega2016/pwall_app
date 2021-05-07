@@ -25,6 +25,7 @@ class _WallpaperFormScreenState extends State<WallpaperFormScreen> {
   File _image;
   final ImageLabeler labeler = FirebaseVision.instance.imageLabeler();
   List<ImageLabel> _detectedLabels;
+  bool _isLoading = false;
 
   @override
   void dispose() {
@@ -43,6 +44,7 @@ class _WallpaperFormScreenState extends State<WallpaperFormScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            if (_isLoading) LinearProgressIndicator(),
             Center(
               child: InkWell(
                 onTap: () async => await _pickImage(),
@@ -73,19 +75,9 @@ class _WallpaperFormScreenState extends State<WallpaperFormScreen> {
             SizedBox(
               height: 45.0,
               child: ElevatedButton(
-                onPressed: () async {
-                  try {
-                    final _wallpaper = Wallpaper(
-                      date: DateTime.now(),
-                      tags: _detectedLabels.map((e) => e.text).toList(),
-                      uploadedBy: widget.uid,
-                    );
-                    await widget.db.addWallpaper(_wallpaper, _image);
-                    Navigator.pop(context);
-                  } catch (e) {
-                    print(e);
-                  }
-                },
+                onPressed: _image == null || _isLoading
+                    ? () {}
+                    : () async => await _save(),
                 child: Text('Save'),
                 style: ButtonStyle(
                   backgroundColor:
@@ -110,6 +102,30 @@ class _WallpaperFormScreenState extends State<WallpaperFormScreen> {
       List<ImageLabel> labels = await labeler.processImage(_fbImage);
       _detectedLabels = labels;
 
+      setState(() {});
+    }
+  }
+
+  _save() async {
+    try {
+      _isLoading = true;
+      setState(() {});
+      final _wallpaper = Wallpaper(
+        date: DateTime.now(),
+        tags: _detectedLabels.map((e) => e.text).toList(),
+        uploadedBy: widget.uid,
+      );
+      _isLoading = true;
+      setState(() {});
+      await widget.db.addWallpaper(_wallpaper, _image);
+      Navigator.pop(context);
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(e.message),
+        backgroundColor: Colors.red,
+      ));
+    } finally {
+      _isLoading = false;
       setState(() {});
     }
   }
